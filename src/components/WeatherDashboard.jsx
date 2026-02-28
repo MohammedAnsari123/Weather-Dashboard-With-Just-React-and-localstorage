@@ -7,15 +7,23 @@ import Forecast from './Forecast';
 import FavoritesList from './FavoritesList';
 import HourlyChart from './HourlyChart';
 import WeatherMap from './WeatherMap';
+import WeatherBackground from './WeatherBackground';
 import { CloudSun, Moon, Sun, Loader2, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const WeatherDashboard = () => {
     const { isDarkMode, toggleTheme } = useTheme();
     const { loading, error, currentWeather, unit, toggleUnit } = useWeather();
 
     return (
-        <div className="min-h-screen bg-transparent flex flex-col items-center justify-start p-4 md:p-8 font-sans selection:bg-blue-500/30 overflow-x-hidden">
-            <div className="w-full max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <div className="min-h-screen bg-transparent flex flex-col items-center justify-start p-4 md:p-8 font-sans selection:bg-blue-500/30 overflow-x-hidden relative">
+            <WeatherBackground />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full max-w-7xl mx-auto space-y-8 relative z-10"
+            >
 
                 {/* Header Section */}
                 <header className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-border/40">
@@ -99,7 +107,7 @@ const WeatherDashboard = () => {
                         )
                     )}
                 </main>
-            </div>
+            </motion.div>
         </div>
     );
 };

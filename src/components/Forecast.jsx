@@ -1,6 +1,7 @@
 import React from 'react';
 import { useWeather } from '../context/WeatherContext';
 import { Cloud, Sun, CloudRain, CloudLightning, Snowflake } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const getWeatherIcon = (description, className) => {
     const desc = description.toLowerCase();
@@ -20,7 +21,12 @@ const Forecast = () => {
     if (loading || error || !forecast || !forecast.list || forecast.list.length === 0) return null;
 
     return (
-        <div className="mt-8">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-8"
+        >
             <h3 className="text-xl font-bold mb-6 text-foreground flex items-center space-x-2">
                 <span>5-Day Forecast</span>
                 <div className="h-px bg-border flex-1 ml-4 dissolve-edge"></div>
@@ -35,10 +41,13 @@ const Forecast = () => {
                     const desc = item.weather[0]?.description || '';
 
                     return (
-                        <div
+                        <motion.div
                             key={item.dt}
-                            className="flex flex-col items-center p-4 sm:p-6 bg-card/60 backdrop-blur-sm border border-border/50 rounded-3xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-blue-500/30 group"
-                            style={{ animationDelay: `${index * 100}ms` }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.1 * index }}
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            className="flex flex-col items-center p-4 sm:p-6 bg-card/60 backdrop-blur-sm border border-border/50 rounded-3xl transition-all duration-300 hover:shadow-lg hover:border-blue-500/30 group"
                         >
                             <span className="text-sm font-semibold text-foreground/80 mb-1">{dayName}</span>
                             <span className="text-xs text-foreground/50 mb-4">{monthDay}</span>
@@ -53,11 +62,11 @@ const Forecast = () => {
                             <div className="text-xs font-medium text-foreground/60 capitalize truncate w-full text-center">
                                 {desc}
                             </div>
-                        </div>
+                        </motion.div>
                     );
                 })}
             </div>
-        </div>
+        </motion.div>
     );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Navigation, Clock, X } from 'lucide-react';
 import { useWeather } from '../context/WeatherContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SearchBar = () => {
     const [query, setQuery] = useState('');
@@ -35,7 +36,13 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="flex w-full max-w-md space-x-2 relative" ref={dropdownRef}>
+        <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex w-full max-w-md space-x-2 relative"
+            ref={dropdownRef}
+        >
             <form onSubmit={handleSubmit} className="relative group flex-1">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
                     <Search className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-300" />
@@ -58,47 +65,56 @@ const SearchBar = () => {
                 </button>
 
                 {/* Search History Dropdown */}
-                {isFocused && searchHistory.length > 0 && (
-                    <div className="absolute top-full left-0 w-full mt-2 py-2 bg-card border border-border rounded-2xl shadow-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                        <div className="flex items-center justify-between px-4 pb-2 mb-2 border-b border-border/50">
-                            <span className="text-xs font-semibold text-foreground/50 uppercase tracking-wider flex items-center">
-                                <Clock className="w-3 h-3 mr-1" />
-                                Recent Searches
-                            </span>
-                            <button
-                                type="button"
-                                onClick={(e) => { e.preventDefault(); clearHistory(); }}
-                                className="text-xs text-red-500 hover:text-red-400 transition-colors flex items-center"
-                            >
-                                <X className="w-3 h-3 mr-1" /> Clear
-                            </button>
-                        </div>
-                        <ul className="max-h-60 overflow-y-auto">
-                            {searchHistory.map((historyCity) => (
-                                <li key={historyCity}>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleHistoryClick(historyCity)}
-                                        className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-foreground/5 transition-colors flex items-center"
-                                    >
-                                        <Search className="w-4 h-4 text-foreground/30 mr-3 shrink-0" />
-                                        <span className="truncate">{historyCity}</span>
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                <AnimatePresence>
+                    {isFocused && searchHistory.length > 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="absolute top-full left-0 w-full mt-2 py-2 bg-card border border-border rounded-2xl shadow-xl z-50 overflow-hidden"
+                        >
+                            <div className="flex items-center justify-between px-4 pb-2 mb-2 border-b border-border/50">
+                                <span className="text-xs font-semibold text-foreground/50 uppercase tracking-wider flex items-center">
+                                    <Clock className="w-3 h-3 mr-1" />
+                                    Recent Searches
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={(e) => { e.preventDefault(); clearHistory(); }}
+                                    className="text-xs text-red-500 hover:text-red-400 transition-colors flex items-center"
+                                >
+                                    <X className="w-3 h-3 mr-1" /> Clear
+                                </button>
+                            </div>
+                            <ul className="max-h-60 overflow-y-auto">
+                                {searchHistory.map((historyCity) => (
+                                    <li key={historyCity}>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleHistoryClick(historyCity)}
+                                            className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-foreground/5 transition-colors flex items-center"
+                                        >
+                                            <Search className="w-4 h-4 text-foreground/30 mr-3 shrink-0" />
+                                            <span className="truncate">{historyCity}</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </form>
-            <button
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={fetchByLocation}
                 title="Use My Location"
                 className="p-2 sm:p-3 bg-card border border-border rounded-xl sm:rounded-2xl text-blue-500 hover:bg-blue-500/10 transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0 flex items-center justify-center"
             >
                 <Navigation className="w-5 h-5" />
-            </button>
-        </div>
+            </motion.button>
+        </motion.div>
     );
 };
 

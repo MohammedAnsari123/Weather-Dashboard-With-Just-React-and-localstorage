@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { useWeather } from '../context/WeatherContext';
 import L from 'leaflet';
 import { useTheme } from '../context/ThemeContext';
+import { motion } from 'framer-motion';
 
 // Fix for default marker icons in react-leaflet
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -54,7 +55,12 @@ const WeatherMap = () => {
     const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
     return (
-        <div className="w-full bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-2 shadow-2xl relative overflow-hidden group h-[300px] lg:h-full min-h-[300px]">
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="w-full bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-2 shadow-2xl relative overflow-hidden group h-[300px] lg:h-full min-h-[300px]"
+        >
             <div className="absolute top-4 left-6 z-[400] bg-card/90 backdrop-blur-md px-4 py-2 rounded-full border border-border/50 shadow-sm pointer-events-none fade-in">
                 <span className="text-sm font-semibold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-500">
                     Radar Map
@@ -102,7 +108,7 @@ const WeatherMap = () => {
                     border-color: rgba(148, 163, 184, 0.1);
                 }
             `}</style>
-        </div>
+        </motion.div>
     );
 };
 

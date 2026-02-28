@@ -35,6 +35,8 @@ The Weather Dashboard goes beyond simply displaying temperatures. It is engineer
     *   Dropdown history of your 5 most recently searched cities (persisted).
     *   "Use My Location" functionality utilizing the HTML5 Geolocation API, completely combined with Reverse Geocoding to fetch accurate local municipal names.
 *   **Favorite Locations:** Bookmark specific cities with a heart icon, placing them cleanly into a horizontal scrollable quick-access list at the top of the dashboard.
+*   **Immersive 3D Environments:** A full-screen Three.js background that renders clouds, rain, or snow based on real-time weather, with a starfield in Dark Mode.
+*   **Fluid Motion Design:** Staggered entrance animations, smooth layout transitions, and interactive hover effects across all UI components.
 
 ---
 
@@ -92,6 +94,7 @@ If the `VITE_OPENWEATHER_API_KEY` is completely missing from the `.env` file, th
 *   **HTTP Requests**: Axios
 *   **Data Visualization**: Recharts
 *   **Geospatial / Maps**: Leaflet, React-Leaflet
+*   **3D / Animations**: Three.js, React Three Fiber, Framer Motion
 *   **Utility Classes**: `clsx` & `tailwind-merge` (via `cn.js`)
 
 ---

@@ -2,6 +2,7 @@ import React from 'react';
 import { useWeather } from '../context/WeatherContext';
 import { Cloud, Droplets, Wind, Thermometer, Sun, CloudRain, CloudLightning, Snowflake, Heart, Sunrise, Sunset } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { motion } from 'framer-motion';
 
 const getWeatherIcon = (description, className) => {
     const desc = description.toLowerCase();
@@ -52,7 +53,12 @@ const CurrentWeather = () => {
     const speedUnit = unit === 'metric' ? 'm/s' : 'mph';
 
     return (
-        <div className="w-full bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl transition-all duration-300 hover:shadow-blue-500/10 hover:border-blue-500/20 group relative overflow-hidden">
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="w-full bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl transition-all duration-300 hover:shadow-blue-500/10 hover:border-blue-500/20 group relative overflow-hidden"
+        >
 
             {/* Background decoration */}
             <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-10 dark:opacity-5 transform group-hover:scale-110 transition-transform duration-700 pointer-events-none">
@@ -137,12 +143,15 @@ const CurrentWeather = () => {
                     value={formatTime(sys?.sunset)}
                 />
             </div>
-        </div>
+        </motion.div>
     );
 };
 
 const WeatherDetailItem = ({ icon, label, value }) => (
-    <div className="flex items-center p-3 sm:p-4 rounded-2xl bg-foreground/5 space-x-3 sm:space-x-4 hover:bg-foreground/10 transition-colors duration-300 w-full overflow-hidden">
+    <motion.div
+        whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+        className="flex items-center p-3 sm:p-4 rounded-2xl bg-foreground/5 space-x-3 sm:space-x-4 hover:bg-foreground/10 transition-colors duration-300 w-full overflow-hidden"
+    >
         <div className="p-2 bg-background rounded-xl shadow-sm shrink-0 flex items-center justify-center">
             {icon}
         </div>
@@ -150,7 +159,7 @@ const WeatherDetailItem = ({ icon, label, value }) => (
             <p className="text-[10px] sm:text-xs font-medium text-foreground/50 uppercase tracking-wider truncate pb-0.5">{label}</p>
             <p className="text-sm sm:text-lg font-semibold text-foreground truncate leading-tight">{value}</p>
         </div>
-    </div>
+    </motion.div>
 );
 
 export default CurrentWeather;

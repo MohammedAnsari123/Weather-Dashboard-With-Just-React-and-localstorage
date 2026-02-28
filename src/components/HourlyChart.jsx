@@ -1,5 +1,6 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { motion } from 'framer-motion';
 import { useWeather } from '../context/WeatherContext';
 
 const HourlyChart = () => {
@@ -35,7 +36,12 @@ const HourlyChart = () => {
     };
 
     return (
-        <div className="w-full bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-6 lg:p-8 shadow-2xl relative overflow-hidden group">
+        <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="w-full bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden group h-[400px]"
+        >
             <h3 className="text-xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/60 mb-6">
                 24-Hour Forecast
             </h3>
@@ -79,7 +85,7 @@ const HourlyChart = () => {
                     </AreaChart>
                 </ResponsiveContainer>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
